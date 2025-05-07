@@ -1,7 +1,10 @@
 version: '3.8'
 
 services:
-  hello:
-    image: alpine:3.18
-    container_name: hello
-    command: echo "Docker fonctionne !"
+ mariadb:
+   build:
+     context:./requirements/mariadb
+   image: mariadb
+   container_name: mariadb
+   env_file:
+    - .env
