@@ -3,10 +3,23 @@ FROM alpine:3.18
 #instal package 
 RUN apk update && apk add --no-cache mariadb mariadb-client bash
 
-#config copy
-COPY conf/50-server.cnf /etc/my.cnf.d/50-server.cnf
+# #fix for alpine
+RUN mkdir -p /run/mysqld && chown -R mysql:mysql /run/mysqld
+RUN mkdir -p /var/lib/mysql && chown -R mysql:mysql /var/lib/mysql
 
-COPY tools/setup.sh /setup.sh
-RUN chmod +x /setup.sh
+# Copie de la configuration MariaDB et du script SQL
+COPY conf/my.cnf /etc/mysql/my.cnf
+COPY tools/generate_init_sql.sh /entrypoint/generate_init_sql.sh
+COPY tools/entrypoint.sh /entrypoint/entrypoint.sh
 
-ENTRYPOINT ["/setup.sh"]
+RUN mkdir -p /docker-entrypoint-initdb.d
+RUN chmod +x /entrypoint/entrypoint.sh /entrypoint/generate_init_sql.sh
+
+# Initialisation de la base de données
+RUN mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+
+# RUN chown -R mysql:mysql /var/lib/mysql
+
+EXPOSE 3306
+
+CMD ["/entrypoint/entrypoint.sh"]
