@@ -8,4 +8,5 @@ chmod -R 755 /docker-entrypoint-initdb.d
 chown -R mysql:mysql /var/lib/mysql
 chown -R mysql:mysql /run/mysqld
 
-exec mysqld --user=mysql --init-file=/docker-entrypoint-initdb.d/init.sql
+exec mysqld --defaults-file=/etc/mysql/my.cnf --user=mysql --init-file=/docker-entrypoint-initdb.d/init.sql
+

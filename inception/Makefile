@@ -19,11 +19,14 @@ ps:
 	$(COMPOSE) -f $(COMPOSE_FILE) --env-file $(ENV_FILE) ps
 
 clean:
-	$(COMPOSE) -f $(COMPOSE_FILE) --env-file $(ENV_FILE) down -v --remove-orphans
+	$(COMPOSE) -f $(COMPOSE_FILE) --env-file $(ENV_FILE) down --remove-orphans
 
 fclean: clean
-	docker volume rm mariadb_data || true
+	docker volume rm srcs_wordpress_data || true
+	docker volume rm srcs_mariadb_data || true
+	docker image rm wordpress|| true
 	docker image rm mariadb || true
+	docker image rm alpine:3.18 || true
 
 prune:
 	docker system prune -af --volumes

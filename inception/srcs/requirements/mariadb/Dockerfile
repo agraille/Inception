@@ -7,7 +7,6 @@ RUN apk update && apk add --no-cache mariadb mariadb-client bash
 RUN mkdir -p /run/mysqld && chown -R mysql:mysql /run/mysqld
 RUN mkdir -p /var/lib/mysql && chown -R mysql:mysql /var/lib/mysql
 
-# Copie de la configuration MariaDB et du script SQL
 COPY conf/my.cnf /etc/mysql/my.cnf
 COPY tools/generate_init_sql.sh /entrypoint/generate_init_sql.sh
 COPY tools/entrypoint.sh /entrypoint/entrypoint.sh
@@ -17,8 +16,6 @@ RUN chmod +x /entrypoint/entrypoint.sh /entrypoint/generate_init_sql.sh
 
 # Initialisation de la base de données
 RUN mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
-
-# RUN chown -R mysql:mysql /var/lib/mysql
 
 EXPOSE 3306
 
