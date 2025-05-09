@@ -26,6 +26,7 @@ fclean: clean
 	docker volume rm srcs_mariadb_data || true
 	docker image rm wordpress|| true
 	docker image rm mariadb || true
+	docker image rm srcs_nginx || true
 	docker image rm alpine:3.18 || true
 
 prune:

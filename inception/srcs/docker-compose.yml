@@ -14,19 +14,41 @@ services:
     restart: always
     networks:
       - inception
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   wordpress:
     build:
       context: ./requirements/wordpress
     image: wordpress
     container_name: wordpress
+    expose:
+     - "9000"
     env_file: .env
     volumes:
       - wordpress_data:/var/www/wordpress
     networks:
       - inception
     depends_on:
-      - mariadb
+      mariadb:
+        condition: service_healthy
+    restart: always
+
+  nginx:
+    build:
+      context: ./requirements/nginx
+    container_name: nginx
+    ports:
+      - "443:443"
+    depends_on:
+      - wordpress
+    volumes:
+      - wordpress_data:/var/www/wordpress
+    networks:
+      - inception
     restart: always
 
 volumes:

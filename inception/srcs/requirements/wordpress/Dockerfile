@@ -8,6 +8,8 @@ RUN apk update && apk add --no-cache \
 
 RUN mkdir -p /run/php && adduser -D -g 'www' www
 
+RUN sed -i 's|^listen = .*|listen = 0.0.0.0:9000|' /etc/php81/php-fpm.d/www.conf
+
 COPY tools/entrypoint.sh /entrypoint.sh
 COPY tools/wp-config-create.sh /wp-config-create.sh
 
