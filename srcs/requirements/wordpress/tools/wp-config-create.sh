@@ -24,7 +24,6 @@ if [ -z "$WORDPRESS_DB_PASSWORD" ] && [ -z "$MYSQL_PASSWORD" ]; then
     exit 1
 fi
 
-# Utilisation des variables d'environnement avec valeurs par défaut explicites
 DB_NAME=${WORDPRESS_DB_NAME:-$MYSQL_DATABASE}
 DB_USER=${WORDPRESS_DB_USER:-$MYSQL_USER}
 DB_PASSWORD=${WORDPRESS_DB_PASSWORD:-$MYSQL_PASSWORD}

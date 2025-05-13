@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   mariadb:
     build:
@@ -53,7 +51,17 @@ services:
 
 volumes:
   mariadb_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/agraille/data/mariadb
+      o: bind
   wordpress_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/agraille/data/wordpress
+      o: bind
 
 networks:
   inception:
