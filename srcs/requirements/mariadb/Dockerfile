@@ -1,6 +1,5 @@
 FROM alpine:3.18
 
-#instal package 
 RUN apk update && apk add --no-cache mariadb mariadb-client bash
 
 # #fix for alpine
@@ -14,7 +13,6 @@ COPY tools/entrypoint.sh /entrypoint/entrypoint.sh
 RUN mkdir -p /docker-entrypoint-initdb.d
 RUN chmod +x /entrypoint/entrypoint.sh /entrypoint/generate_init_sql.sh
 
-# Initialisation de la base de données
 RUN mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
 
 EXPOSE 3306

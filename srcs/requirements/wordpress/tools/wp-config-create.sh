@@ -8,7 +8,6 @@ fi
 
 echo "Création du fichier wp-config.php..."
 
-# Validation des variables d'environnement
 if [ -z "$WORDPRESS_DB_NAME" ] && [ -z "$MYSQL_DATABASE" ]; then
     echo "ERREUR: La variable WORDPRESS_DB_NAME ou MYSQL_DATABASE doit être définie"
     exit 1
@@ -63,6 +62,10 @@ define('AUTH_SALT',        '$AUTH_SALT');
 define('SECURE_AUTH_SALT', '$SECURE_AUTH_SALT');
 define('LOGGED_IN_SALT',   '$LOGGED_IN_SALT');
 define('NONCE_SALT',       '$NONCE_SALT');
+
+define('WP_REDIS_HOST', 'redis');
+define('WP_REDIS_PORT', 6379);
+define('WP_REDIS_CLIENT', 'phpredis');
 
 // ** Préfixe de table ** //
 \$table_prefix = 'wp_';

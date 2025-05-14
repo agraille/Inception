@@ -27,6 +27,8 @@ fclean: clean
 	docker image rmi wordpress
 	docker image rmi mariadb
 	docker image rmi srcs-nginx
+	docker image rmi srcs-redis
+	docker image rmi srcs-adminer
 
 prune:
 	docker system prune -af --volumes

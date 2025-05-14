@@ -37,5 +37,6 @@ find /var/www/wordpress -type d -exec chmod 755 {} \;
 find /var/www/wordpress -type f -exec chmod 644 {} \;
 chown -R www:www /var/www/wordpress
 
+./wp-user.sh
 echo "Démarrage de PHP-FPM..."
 exec php-fpm81 -F
