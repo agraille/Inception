@@ -67,6 +67,10 @@ define('WP_REDIS_HOST', 'redis');
 define('WP_REDIS_PORT', 6379);
 define('WP_REDIS_CLIENT', 'phpredis');
 
+define('WP_DEBUG', true);
+define('WP_DEBUG_LOG', true);
+define('WP_DEBUG_DISPLAY', true);
+
 // ** Préfixe de table ** //
 \$table_prefix = 'wp_';
 
