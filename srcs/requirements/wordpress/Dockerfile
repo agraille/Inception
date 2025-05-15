@@ -22,8 +22,6 @@ RUN wp core download --path=/var/www/wordpress --allow-root
 
 RUN mkdir -p /run/php && adduser -D -g 'www' www
 
-# RUN docker-php-ext-install ctype
-
 COPY conf/www.conf /etc/php81/php-fpm.d/www.conf
 
 COPY tools/entrypoint.sh /entrypoint.sh

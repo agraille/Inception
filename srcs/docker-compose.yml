@@ -76,6 +76,23 @@ services:
     - inception
    restart: always
 
+  ftp:
+   build: ./requirements/bonus/ftp
+   container_name: ftp
+   ports:
+    - "21:21"
+    - "30000-30100:30000-30100"
+   volumes:
+    - wordpress_data:/var/www/wordpress
+    - /dev/pts:/dev/pts 
+   tty: true
+   depends_on:
+    wordpress:
+     condition: service_healthy
+   restart: always
+   networks:
+    - inception
+
 volumes:
   mariadb_data:
     driver: local
