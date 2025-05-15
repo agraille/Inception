@@ -4,6 +4,7 @@ RUN apk update && apk add --no-cache \
     php81 php81-fpm php81-mysqli php81-curl php81-json php81-mbstring \
     php81-opcache php81-session php81-zlib php81-phar php81-dom php81-exif \
     php81-fileinfo php81-tokenizer php81-xml php81-pecl-imagick \
+    php81-pecl-redis \
     curl bash wget unzip mariadb-client
 
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
@@ -15,9 +16,13 @@ RUN mkdir -p /var/www/wordpress/wp-content/plugins && \
     unzip redis-cache.zip -d /var/www/wordpress/wp-content/plugins && \
     rm redis-cache.zip
 
+RUN echo "memory_limit = 512M" > /etc/php81/conf.d/memory-limit.ini
+
+RUN wp core download --path=/var/www/wordpress --allow-root
+
 RUN mkdir -p /run/php && adduser -D -g 'www' www
 
-RUN sed -i 's|^listen = .*|listen = 0.0.0.0:9000|' /etc/php81/php-fpm.d/www.conf
+COPY conf/www.conf /etc/php81/php-fpm.d/www.conf
 
 COPY tools/entrypoint.sh /entrypoint.sh
 COPY tools/wp-config-create.sh /wp-config-create.sh
