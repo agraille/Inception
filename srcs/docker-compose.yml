@@ -93,6 +93,15 @@ services:
    networks:
     - inception
 
+  site:
+    build: ./requirements/bonus/site
+    container_name: site
+    ports:
+      - "8081:80"
+    networks:
+      - inception
+    restart: always
+
 volumes:
   mariadb_data:
     driver: local

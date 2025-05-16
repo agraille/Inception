@@ -29,6 +29,8 @@ fclean: clean
 	docker image rmi srcs-nginx
 	docker image rmi srcs-redis
 	docker image rmi srcs-adminer
+	docker image rmi srcs-site
+	docker image rmi srcs-ftp
 
 prune:
 	docker system prune -af --volumes
