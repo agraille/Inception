@@ -1,4 +1,4 @@
-FROM alpine:3.18
+FROM alpine:3.20.6
 
 RUN apk update && apk add --no-cache \
     php81 php81-fpm php81-mysqli php81-curl php81-json php81-mbstring \

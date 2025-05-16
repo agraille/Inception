@@ -97,10 +97,49 @@ services:
     build: ./requirements/bonus/site
     container_name: site
     ports:
-      - "8081:80"
+      - "8181:80"
     networks:
       - inception
     restart: always
+
+  prometheus:
+    build:
+      context: ./requirements/bonus/prometheus
+    container_name: prometheus
+    restart: always
+    depends_on:
+     cadvisor:
+      condition: service_started
+    ports:
+      - "${PROMETHEUS_PORT}:9090"
+    volumes:
+      - prometheus_data:/etc/prometheus
+    networks:
+      - inception
+
+  grafana:
+    build:
+      context: ./requirements/bonus/grafana
+    container_name: grafana
+    restart: always
+    ports:
+      - "${GRAFANA_PORT}:3000"
+    networks:
+      - inception
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    restart: always
+    ports:
+      - "8282:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    networks:
+      - inception
 
 volumes:
   mariadb_data:
@@ -114,6 +153,12 @@ volumes:
     driver_opts:
       type: none
       device: /home/agraille/data/wordpress
+      o: bind
+  prometheus_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/agraille/data/prometheus
       o: bind
 
 networks:

@@ -24,6 +24,7 @@ clean:
 fclean: clean
 	docker volume rm srcs_wordpress_data || true
 	docker volume rm srcs_mariadb_data || true
+	docker volume rm srcs_prometheus_data || true
 	docker image rmi wordpress
 	docker image rmi mariadb
 	docker image rmi srcs-nginx
@@ -31,6 +32,9 @@ fclean: clean
 	docker image rmi srcs-adminer
 	docker image rmi srcs-site
 	docker image rmi srcs-ftp
+	docker image rmi srcs-grafana
+	docker image rmi srcs-prometheus
+	docker image rmi gcr.io/cadvisor/cadvisor 
 
 prune:
 	docker system prune -af --volumes
