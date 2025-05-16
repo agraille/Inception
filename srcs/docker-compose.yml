@@ -35,7 +35,7 @@ services:
        condition: service_started
     restart: always
     healthcheck:
-     test: ["CMD", "php-fpm81", "-t"]
+     test: ["CMD", "php-fpm82", "-t"]
      interval: 10s
      timeout: 5s
      retries: 3

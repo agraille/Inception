@@ -32,4 +32,4 @@ chown -R www:www /var/www/wordpress
 cp /var/www/wordpress/wp-content/plugins/redis-cache/includes/object-cache.php /var/www/wordpress/wp-content/object-cache.php
 wp redis enable --path=/var/www/wordpress --allow-root
 
-exec php-fpm81 -F
+exec php-fpm82 -F

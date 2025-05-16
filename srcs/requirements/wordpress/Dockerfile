@@ -1,11 +1,13 @@
 FROM alpine:3.20.6
 
 RUN apk update && apk add --no-cache \
-    php81 php81-fpm php81-mysqli php81-curl php81-json php81-mbstring \
-    php81-opcache php81-session php81-zlib php81-phar php81-dom php81-exif \
-    php81-fileinfo php81-tokenizer php81-xml php81-pecl-imagick \
-    php81-pecl-redis php81-ctype\
+    php82 php82-fpm php82-mysqli php82-curl php82-json php82-mbstring \
+    php82-opcache php82-session php82-zlib php82-phar php82-dom php82-exif \
+    php82-fileinfo php82-tokenizer php82-xml php82-pecl-imagick \
+    php82-pecl-redis php82-ctype php82-cli \
     curl bash wget unzip mariadb-client
+
+RUN ln -sf /usr/bin/php82 /usr/bin/php || true
 
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
     chmod +x wp-cli.phar && \
@@ -16,13 +18,13 @@ RUN mkdir -p /var/www/wordpress/wp-content/plugins && \
     unzip redis-cache.zip -d /var/www/wordpress/wp-content/plugins && \
     rm redis-cache.zip
 
-RUN echo "memory_limit = 512M" > /etc/php81/conf.d/memory-limit.ini
+RUN echo "memory_limit = 512M" > /etc/php82/conf.d/memory-limit.ini
 
 RUN wp core download --path=/var/www/wordpress --allow-root
 
 RUN mkdir -p /run/php && adduser -D -g 'www' www
 
-COPY conf/www.conf /etc/php81/php-fpm.d/www.conf
+COPY conf/www.conf /etc/php82/php-fpm.d/www.conf
 
 COPY tools/entrypoint.sh /entrypoint.sh
 COPY tools/wp-config-create.sh /wp-config-create.sh
