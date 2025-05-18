@@ -10,6 +10,9 @@ services:
     restart: always
     networks:
       - inception
+    secrets:
+      - mysql_root_password
+      - mysql_user_password
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
       interval: 5s
@@ -34,6 +37,10 @@ services:
       redis:
        condition: service_started
     restart: always
+    secrets:
+      - wordpress_db_password
+      - wordpress_admin_password
+      - wordpress_second_user_password
     healthcheck:
      test: ["CMD", "php-fpm82", "-t"]
      interval: 10s
@@ -164,3 +171,16 @@ volumes:
 networks:
   inception:
     driver: bridge
+
+
+secrets:
+  mysql_root_password:
+    file: ../secrets/mysql_root_password.txt
+  mysql_user_password:
+    file: ../secrets/mysql_user_password.txt
+  wordpress_db_password:
+    file: ../secrets/wordpress_db_password.txt
+  wordpress_admin_password:
+    file: ../secrets/wordpress_admin_password.txt
+  wordpress_second_user_password:
+    file: ../secrets/wordpress_second_user_password.txt

@@ -18,22 +18,16 @@ if [ -z "$WORDPRESS_DB_USER" ] && [ -z "$MYSQL_USER" ]; then
     exit 1
 fi
 
-if [ -z "$WORDPRESS_DB_PASSWORD" ] && [ -z "$MYSQL_PASSWORD" ]; then
-    echo "ERREUR: La variable WORDPRESS_DB_PASSWORD ou MYSQL_PASSWORD doit être définie"
-    exit 1
-fi
-
-DB_NAME=${WORDPRESS_DB_NAME:-$MYSQL_DATABASE}
-DB_USER=${WORDPRESS_DB_USER:-$MYSQL_USER}
-DB_PASSWORD=${WORDPRESS_DB_PASSWORD:-$MYSQL_PASSWORD}
-DB_HOST=${WORDPRESS_DB_HOST:-"mariadb:3306"}
+DB_NAME=${WORDPRESS_DB_NAME}
+DB_USER=${WORDPRESS_DB_USER}
+DB_PASSWORD="$(cat /run/secrets/wordpress_db_password )"
+DB_HOST=${WORDPRESS_DB_HOST}
 
 echo "Configuration avec:"
 echo "- Base de données: $DB_NAME"
 echo "- Utilisateur: $DB_USER"
 echo "- Hôte: $DB_HOST"
 
-# Génération des clés de sécurité
 AUTH_KEY=$(head -c 64 /dev/urandom | base64 | tr -dc 'a-zA-Z0-9!@#$%^&*()_+{}|:<>?=' | head -c 64)
 SECURE_AUTH_KEY=$(head -c 64 /dev/urandom | base64 | tr -dc 'a-zA-Z0-9!@#$%^&*()_+{}|:<>?=' | head -c 64)
 LOGGED_IN_KEY=$(head -c 64 /dev/urandom | base64 | tr -dc 'a-zA-Z0-9!@#$%^&*()_+{}|:<>?=' | head -c 64)
