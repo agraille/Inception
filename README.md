@@ -21,7 +21,19 @@ Tous les services sont interconnectés via un réseau Docker privé.
 L’architecture repose sur l’utilisation de volumes persistants pour la base de données et les fichiers du site.
 
 ## 🧱 Infrastructure
-
+```
+         [Client]
+             |
+          [NGINX]
+             |
+  ------------------------
+  |     |      |    |    |
+WP   Adminer  FTP  Site  cAdvisor
+  \     |                |
+ MariaDB                 Prometheus
+                         |
+                         Grafana
+```
 ### Services obligatoires :
 
 - 🔒 **NGINX** : reverse proxy en HTTPS (Certificat SSL + TLSv1.2 / TLSv1.3 uniquement).
@@ -51,25 +63,24 @@ git clone https://github.com/agraille/Inception && cd Inception
 ```
 ### 2. Configurer les variables
 - Modifier le fichier .env et les mdp dans secret/files si vous le souhaitez.
-- Modifier/creer les chemins des volumes locaux (en bas du docker compose)
+- Modifier ou créer les chemins des volumes locaux (en bas du docker compose)
 ### 3. Build
 ```
 make
 ```
 ### 4. Accéder aux services
-WordPress : https://localhost
 
-Adminer : https://login.42.fr:8080
-
-Site perso : http://localhost:8181
-
-FTP : utliser par exemple Filezilla (port 21) (log : ftpuser, mdp ftppass) 
-
-cAdvisor : http://localhost:8282/containers/
-
-Prometheus : http://localhost:9090/
-
-Grafana : http://localhost:3000
+- 🌐 **WordPress** : [https://localhost](https://localhost)
+- 🛠️ **Adminer** : [https://login.42.fr:8080](https://login.42.fr:8080)
+- 🌍 **Site perso** : [http://localhost:8181](http://localhost:8181)
+- 📡 **cAdvisor** : [http://localhost:8282/containers/](http://localhost:8282/containers/)
+- 📊 **Prometheus** : [http://localhost:9090](http://localhost:9090)
+- 📈 **Grafana** : [http://localhost:3000](http://localhost:3000)
+- - 📂 **FTP** : Accessible via un client FTP comme **FileZilla**  
+- Hôte : `localhost`  
+- Port : `21`  
+- Utilisateur : `ftpuser`  
+- Mot de passe : `ftppass`
 
 ## ✅ Fonctionnalités
 
