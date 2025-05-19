@@ -1,4 +1,5 @@
 #!/bin/bash
+
 set -e
 
 if [ -f /var/www/wordpress/wp-config.php ]; then
@@ -39,7 +40,6 @@ NONCE_SALT=$(head -c 64 /dev/urandom | base64 | tr -dc 'a-zA-Z0-9!@#$%^&*()_+{}|
 
 cat > /var/www/wordpress/wp-config.php <<EOF
 <?php
-// ** Réglages MySQL - Vous pouvez obtenir ces informations auprès de votre hébergeur ** //
 define('DB_NAME', '$DB_NAME');
 define('DB_USER', '$DB_USER');
 define('DB_PASSWORD', '$DB_PASSWORD');
@@ -47,7 +47,6 @@ define('DB_HOST', '$DB_HOST');
 define('DB_CHARSET', 'utf8');
 define('DB_COLLATE', '');
 
-// ** Clés uniques d'authentification et salage ** //
 define('AUTH_KEY',         '$AUTH_KEY');
 define('SECURE_AUTH_KEY',  '$SECURE_AUTH_KEY');
 define('LOGGED_IN_KEY',    '$LOGGED_IN_KEY');
@@ -61,17 +60,10 @@ define('WP_REDIS_HOST', 'redis');
 define('WP_REDIS_PORT', 6379);
 define('WP_REDIS_CLIENT', 'phpredis');
 
-define('WP_DEBUG', true);
-define('WP_DEBUG_LOG', true);
-define('WP_DEBUG_DISPLAY', true);
-
-// ** Préfixe de table ** //
 \$table_prefix = 'wp_';
 
-// ** Débogage ** //
-define('WP_DEBUG', false);
+define('WP_DEBUG', true);
 
-// ** Chemin absolu vers le dossier de WordPress ** //
 if ( ! defined( 'ABSPATH' ) ) {
     define( 'ABSPATH', __DIR__ . '/' );
 }

@@ -15,6 +15,10 @@ RUN chmod +x /entrypoint/entrypoint.sh /entrypoint/generate_init_sql.sh
 
 RUN mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
 
+COPY tools/healthcheck.sh /usr/local/bin/healthcheck.sh
+RUN chmod +x /usr/local/bin/healthcheck.sh
+
+
 EXPOSE 3306
 
 CMD ["/entrypoint/entrypoint.sh"]

@@ -14,7 +14,7 @@ services:
       - mysql_root_password
       - mysql_user_password
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+      test: ["CMD", "/usr/local/bin/healthcheck.sh"]
       interval: 5s
       timeout: 5s
       retries: 5

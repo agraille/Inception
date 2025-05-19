@@ -19,10 +19,18 @@ fi
 
 if ! wp core is-installed --path="$WP_PATH" --allow-root; then
   echo ">> Installation de WordPress..."
-  wp core install --path="$WP_PATH" --allow-root --url=https://$DOMAIN_NAME --title="WordPress Site" --admin_user=$WORDPRESS_ADMIN_USER --admin_password=$WORDPRESS_ADMIN_PASSWORD --admin_email=$WORDPRESS_ADMIN_EMAIL
+  wp core install \
+    --path="$WP_PATH" \
+    --allow-root \
+    --url=https://$DOMAIN_NAME \
+    --title="WordPress Site" \
+    --admin_user="$WORDPRESS_ADMIN_USER" \
+    --admin_password="$(cat /run/secrets/wordpress_admin_password)" \
+    --admin_email="$WORDPRESS_ADMIN_EMAIL"
   echo ">> Création des utilisateurs..."
   ./wp-user.sh
 fi
+
 
 wp plugin is-active redis-cache --path="$WP_PATH" --allow-root || wp plugin activate redis-cache --path="$WP_PATH" --allow-root
 
